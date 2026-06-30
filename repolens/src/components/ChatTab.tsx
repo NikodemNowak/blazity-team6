@@ -46,19 +46,19 @@ export default function ChatTab({ repoId }: { repoId: string }) {
   }
 
   return (
-    <div className="flex min-h-[560px] flex-col rounded-lg border border-stone-200 bg-white shadow-sm">
-      <div className="border-b border-stone-200 px-5 py-4">
-        <h2 className="text-base font-semibold text-stone-950">Chat with the repo</h2>
-        <p className="mt-1 text-sm text-stone-500">
+    <div className="flex min-h-[520px] flex-col rounded-lg border border-[var(--border)] bg-[var(--surface)] shadow-sm sm:min-h-[560px]">
+      <div className="border-b border-[var(--border)] px-4 py-4 sm:px-5">
+        <h2 className="text-base font-semibold text-[var(--text)]">Chat with the repo</h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">
           Ask about architecture, data flow, or a specific file. Answers should cite real lines.
         </p>
       </div>
 
-      <div className="min-h-0 flex-1 space-y-4 overflow-auto px-5 py-5">
+      <div className="min-h-0 flex-1 space-y-4 overflow-auto px-4 py-4 sm:px-5 sm:py-5">
         {msgs.length === 0 && (
-          <div className="rounded-lg border border-dashed border-stone-300 bg-stone-50 p-5">
-            <p className="text-sm font-medium text-stone-950">Try a focused question.</p>
-            <p className="mt-1 text-sm leading-6 text-stone-600">
+          <div className="rounded-lg border border-dashed border-[var(--fieldBorder)] bg-[var(--field)] p-5">
+            <p className="text-sm font-medium text-[var(--text)]">Try a focused question.</p>
+            <p className="mt-1 text-sm leading-6 text-[var(--muted)]">
               For example: How does repo ingestion work? Or: Where is rate limiting applied?
             </p>
           </div>
@@ -71,11 +71,11 @@ export default function ChatTab({ repoId }: { repoId: string }) {
               m.error
                 ? "border-red-200 bg-red-50 text-red-700"
                 : m.role === "user"
-                  ? "border-stone-200 bg-stone-50 text-stone-950"
-                  : "border-stone-200 bg-white text-stone-700"
+                  ? "border-[var(--border)] bg-[var(--soft)] text-[var(--text)]"
+                  : "border-[var(--border)] bg-[var(--surface)] text-[var(--subtleText)]"
             }`}
           >
-            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
               {m.role}
             </div>
             <div className="whitespace-pre-wrap text-sm leading-6">{m.text}</div>
@@ -92,13 +92,13 @@ export default function ChatTab({ repoId }: { repoId: string }) {
             ) : null}
           </article>
         ))}
-        {loading && <p className="text-sm text-stone-500">Thinking...</p>}
+        {loading && <p className="text-sm text-[var(--muted)]">Thinking...</p>}
       </div>
 
-      <div className="border-t border-stone-200 p-4">
+      <div className="border-t border-[var(--border)] p-4">
         <div className="flex flex-col gap-2 sm:flex-row">
           <textarea
-            className="min-h-24 flex-1 resize-none rounded-md border border-stone-300 bg-stone-50 px-3 py-3 text-sm text-stone-950 outline-none transition focus:border-stone-500 focus:bg-white"
+            className="min-h-24 flex-1 resize-none rounded-md border border-[var(--fieldBorder)] bg-[var(--field)] px-3 py-3 text-sm text-[var(--text)] outline-none transition focus:border-[var(--primary)] focus:bg-[var(--surface)]"
             placeholder="How does authentication, routing, or repo ingestion work?"
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -107,7 +107,7 @@ export default function ChatTab({ repoId }: { repoId: string }) {
             }}
           />
           <button
-            className="min-h-11 rounded-md bg-stone-950 px-5 text-sm font-semibold text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:bg-stone-300 sm:self-end"
+            className="min-h-11 rounded-md bg-[var(--primary)] px-5 text-sm font-semibold text-[var(--primaryText)] transition opacity-100 hover:opacity-90 disabled:cursor-not-allowed disabled:bg-[var(--disabled)] sm:self-end"
             onClick={send}
             disabled={loading || !q.trim()}
           >

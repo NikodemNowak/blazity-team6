@@ -27,17 +27,17 @@ export default function RepoLoader({ onLoaded }: { onLoaded: (r: IngestResponse)
   }
 
   return (
-    <div className="rounded-lg border border-stone-200 bg-white p-3 shadow-sm">
+    <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3 shadow-sm">
       <div className="flex flex-col gap-2 sm:flex-row">
         <input
-          className="min-h-11 flex-1 rounded-md border border-stone-300 bg-stone-50 px-3 text-sm text-stone-950 outline-none transition focus:border-stone-500 focus:bg-white"
+          className="min-h-11 flex-1 rounded-md border border-[var(--fieldBorder)] bg-[var(--field)] px-3 text-sm text-[var(--text)] outline-none transition focus:border-[var(--primary)] focus:bg-[var(--surface)]"
           placeholder="https://github.com/owner/repo"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && load()}
         />
         <button
-          className="min-h-11 rounded-md bg-stone-950 px-4 text-sm font-semibold text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:bg-stone-300"
+          className="min-h-11 rounded-md bg-[var(--primary)] px-4 text-sm font-semibold text-[var(--primaryText)] transition opacity-100 hover:opacity-90 disabled:cursor-not-allowed disabled:bg-[var(--disabled)]"
           onClick={load}
           disabled={loading || !url}
         >
