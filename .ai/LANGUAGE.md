@@ -7,6 +7,7 @@ Use this file to define canonical product and codebase terms for AI agents.
 | Term | Meaning | Avoid |
 | --- | --- | --- |
 | RepoLens | The product: a web app that ingests a GitHub repo and offers chat, doc generation, and drift check over it. | "the tool" |
+| Vellum | The active app and demo target under `vellum/`; repo chat and docs generation live here. | "frontend exploration" |
 | Bundle | The in-memory ingested repo (`{ tree, files, totalTokens }`) keyed by `repoId`, read via `getBundle(repoId)`. Fed to Claude. | "the repo data", "cache" |
 | repoId | Server-side key identifying one ingested bundle in the in-memory `Map`. | "session id" |
 | Citation | A `file:line` reference (`{ path, startLine, endLine }`) attached to an answer or finding; rendered as a real code snippet by `<CitationView>`. | "source", "reference" |
@@ -15,3 +16,5 @@ Use this file to define canonical product and codebase terms for AI agents.
 | Content | In RepoLens, the codebase and its docs are the content. Broadly: anything people produce/manage. | "data" (too generic) |
 | Atlas | The AI workspace tooling (`@blazity-atlas/core`) that manages `.ai/`. Not part of the shipped product. | "the framework" |
 | Claude | The Anthropic AI provider powering the app's features, via `@anthropic-ai/sdk`. | "the LLM", "GPT" |
+| Language profile | Detected documentation convention for a repo language, e.g. Python `pydoc`, TypeScript TypeDoc/JSDoc, Go `godoc`, Rust `rustdoc`. | "library choice" |
+| local fixture | Development-only repo input using `local:<name>` from `test_repos/`. | "local GitHub URL" |

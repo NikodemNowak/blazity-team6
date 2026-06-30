@@ -203,7 +203,7 @@ export default function RepoChat() {
         <div className="repo-load-row">
           <input
             className="input"
-            placeholder="https://github.com/owner/repo"
+            placeholder="https://github.com/owner/repo or local:python-flask-hello-world"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && loadRepo()}

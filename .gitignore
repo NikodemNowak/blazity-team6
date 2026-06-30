@@ -81,5 +81,7 @@ temp/
 *-working.png
 
 # Secrets — never commit private keys
-*.pem
 *.private-key.pem
+
+# Local demo repositories used to verify Vellum ingest/documentation flows.
+test_repos/

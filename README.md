@@ -32,7 +32,21 @@ People who work with words, images, or video drown in busywork: reformatting, of
    /atlas:atlas-review
    ```
    Or tell any agent: _"Read `.ai/skills/atlas-setup/SKILL.md` and adapt this workspace to our project."_
-5. **Build** with the stack of your choice: any language, any framework. Pick what lets you move fastest.
+5. **Current app:** work in `vellum/`. It is the active Vellum/RepoLens demo app:
+   repo ingest, repo chat, docs generation, settings/themes/layouts, and mock
+   Analyze/Review/Documents screens. `repolens/` is an earlier scaffold/test app.
+
+Run Vellum:
+
+```bash
+cd vellum
+npm install
+npm run dev
+```
+
+Live repo features use server-side `ANTHROPIC_API_KEY` and, for reliable GitHub
+access, `GITHUB_TOKEN`. Local demo fixtures can be cloned into `test_repos/` and
+loaded with inputs such as `local:python-flask-hello-world`.
 
 ---
 

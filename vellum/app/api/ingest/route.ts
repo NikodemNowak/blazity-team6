@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseRepoUrl, fetchRepoFiles } from "@/lib/repo/github";
+import { fetchLocalRepoFiles } from "@/lib/repo/local";
 import { applyBudget } from "@/lib/repo/filter";
 import { saveBundle } from "@/lib/repo/bundleStore";
 import { rateLimit, clientKey } from "@/lib/repo/rateLimit";
@@ -18,22 +19,10 @@ export async function POST(req: NextRequest) {
     const { repoUrl } = await req.json();
     if (!repoUrl) return NextResponse.json({ error: "repoUrl is required" }, { status: 400 });
 
-    const { owner, repo } = parseRepoUrl(repoUrl);
-
-    // Token precedence: GitHub App installation token (if the user connected) >
-    // GITHUB_TOKEN env PAT > unauthenticated. Installation tokens are minted
-    // server-side from the App private key and never stored.
-    let token: string | undefined;
-    const installationId = verifyInstallation(req.cookies.get(INSTALL_COOKIE)?.value);
-    if (installationId) {
-      try {
-        token = await getInstallationToken(installationId);
-      } catch {
-        /* fall back to env PAT / unauthenticated */
-      }
-    }
-
-    const { branch, files, fileTree, treeTruncated } = await fetchRepoFiles(owner, repo, token);
+    const localMatch =
+      typeof repoUrl === "string" ? repoUrl.trim().match(/^local:([A-Za-z0-9._-]+)$/) : null;
+    const source = localMatch ? await fetchLocalRepoFiles(localMatch[1]) : await fetchGitHubSource(req, repoUrl);
+    const { owner, repo, branch, files, fileTree, treeTruncated } = source;
     const { kept, truncated } = applyBudget(files);
 
     const bundle: RepoBundle = {
@@ -58,4 +47,23 @@ export async function POST(req: NextRequest) {
     const msg = e instanceof Error ? e.message : "Ingest failed";
     return NextResponse.json({ error: msg }, { status: 500 });
   }
+}
+
+async function fetchGitHubSource(req: NextRequest, repoUrl: string) {
+  const { owner, repo } = parseRepoUrl(repoUrl);
+
+  // Token precedence: GitHub App installation token (if the user connected) >
+  // GITHUB_TOKEN env PAT > unauthenticated. Installation tokens are minted
+  // server-side from the App private key and never stored.
+  let token: string | undefined;
+  const installationId = verifyInstallation(req.cookies.get(INSTALL_COOKIE)?.value);
+  if (installationId) {
+    try {
+      token = await getInstallationToken(installationId);
+    } catch {
+      /* fall back to env PAT / unauthenticated */
+    }
+  }
+
+  return { owner, repo, ...(await fetchRepoFiles(owner, repo, token)) };
 }
