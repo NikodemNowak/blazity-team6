@@ -62,6 +62,21 @@ export async function POST(req: NextRequest) {
   const profiles = detectLanguageProfiles(bundle);
   const profileText = describeLanguageProfiles(profiles);
 
+  if (!process.env.ANTHROPIC_API_KEY && !process.env.ANTHROPIC_AUTH_TOKEN) {
+    return NextResponse.json(
+      {
+        error:
+          "ANTHROPIC_API_KEY is required to generate documentation. Repo ingest and language profiling succeeded.",
+        languageProfiles: profiles.map((p) => ({
+          language: p.language,
+          tooling: p.tooling,
+          files: p.files,
+        })),
+      },
+      { status: 500 },
+    );
+  }
+
   const user = [
     `Document type: ${docType}`,
     `Audience: ${audience}`,

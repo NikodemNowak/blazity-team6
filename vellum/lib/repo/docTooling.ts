@@ -162,7 +162,13 @@ export function detectLanguageProfiles(bundle: RepoBundle): LanguageProfile[] {
   }
 
   return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1])
+    .sort((a, b) => {
+      const count = b[1] - a[1];
+      if (count !== 0) return count;
+      if (a[0] === "Markdown") return 1;
+      if (b[0] === "Markdown") return -1;
+      return a[0].localeCompare(b[0]);
+    })
     .slice(0, 5)
     .map(([language, files]) => {
       const base = TOOLING[language] ?? {

@@ -1,7 +1,8 @@
 # Product
 
-**RepoLens** — a Blazity "AI for Content" hackathon web app. The "content" is a
-codebase and its docs. Full concept and build plan: `docs/CONCEPT.md`.
+**Vellum / RepoLens** — a Blazity "AI for Content" hackathon web app. The active
+product surface is `vellum/`; the "content" is a codebase and its docs. Full
+concept and build plan: `docs/CONCEPT.md`.
 
 ## The pain
 
@@ -10,13 +11,16 @@ sync with the code they describe — so they mislead the reader.
 
 ## What it does
 
-Paste a **GitHub repo URL**; RepoLens ingests the repo (file tree + contents) and
-offers three features over the same in-memory bundle:
+Paste a **GitHub repo URL** or development-only `local:<fixture>`; Vellum ingests
+the repo (file tree + contents) and offers repo-backed features over the same
+in-memory bundle:
 
-- **Chat with the repo** — ask questions, get answers with `file:line` citations.
-- **Generate docs** — onboarding/architecture overview written from the actual code.
-- **Drift check** — compares README/docs against the code, flags stale claims and
-  cites the contradicting code.
+- **Chat with the repo** — implemented in Vellum; ask questions, get Markdown
+  answers with citations and rendered snippets.
+- **Generate docs** — implemented in Vellum; onboarding/architecture overview
+  written from the actual code using language-specific documentation profiles.
+- **Drift check** — implemented in Vellum; compares README/docs against the code,
+  flags stale claims and cites the contradicting code.
 
 ## Why AI earns its place
 
@@ -27,21 +31,16 @@ human verifies the evidence rather than trusting the model blindly.
 
 ## Demo / success criteria
 
-Load a real repo live and run all three end-to-end: ask a question (cited answer),
-generate docs, run drift. Focus over scope — these three features are the whole
-product. Judging favors clear reasoning about the problem and visible output checks.
+Load a real repo live, ask a cited question, and generate docs from the same bundle.
+If GitHub auth is unavailable, use local `test_repos` fixtures to demonstrate
+ingest and language-profile selection. Run Drift to show docs-vs-code checks.
 
 ## Explicitly NOT building (YAGNI)
 
 Vector DB / embeddings, user accounts, persistence across restarts, multi-repo
 history, writing generated docs back to GitHub, syntax-perfect diffing.
 
-## Related: Vellum frontend exploration (`vellum/`)
+## Implementation note
 
-A parallel UI exploration of the same documentation theme, kept separate from the
-canonical RepoLens app. "Vellum" is a frontend-only workspace with **Generate /
-Analyze / Review** screens for documentation, built against a typed **mock API**
-(no real model calls). Its purpose is design exploration — restrained styling, 12
-colour themes, and 2 runtime layout variants (top-nav / split). Its mock layer is
-shaped to be swappable for a real Claude-backed backend later. Conceptually it
-overlaps with RepoLens (generate docs, review/drift) but is a distinct codebase.
+`vellum/` is the active demo target. `repolens/` is an earlier scaffold/test app and
+should not receive frontend product work unless explicitly requested.

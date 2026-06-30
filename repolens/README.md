@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RepoLens Scaffold
+
+This is an earlier Next.js scaffold/test implementation. The active product and
+frontend target in this repository is `../vellum/`.
+
+The app is still useful for isolated route/helper experiments, but new product UI
+or documentation-generation work should go to Vellum unless explicitly requested.
 
 ## Getting Started
 
