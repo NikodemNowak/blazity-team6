@@ -35,3 +35,13 @@ product. Judging favors clear reasoning about the problem and visible output che
 
 Vector DB / embeddings, user accounts, persistence across restarts, multi-repo
 history, writing generated docs back to GitHub, syntax-perfect diffing.
+
+## Related: Vellum frontend exploration (`vellum/`)
+
+A parallel UI exploration of the same documentation theme, kept separate from the
+canonical RepoLens app. "Vellum" is a frontend-only workspace with **Generate /
+Analyze / Review** screens for documentation, built against a typed **mock API**
+(no real model calls). Its purpose is design exploration — restrained styling, 12
+colour themes, and 2 runtime layout variants (top-nav / split). Its mock layer is
+shaped to be swappable for a real Claude-backed backend later. Conceptually it
+overlaps with RepoLens (generate docs, review/drift) but is a distinct codebase.

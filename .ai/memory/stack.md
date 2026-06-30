@@ -29,3 +29,16 @@ lockfile, or framework config in the repo yet).
 
 - Hosting/deploy target (e.g. Vercel) — not yet chosen.
 - Markdown renderer and any UI component library.
+
+## Vellum frontend (`vellum/`) — scaffolded
+
+Standalone from the RepoLens app (its own `package.json`/lockfile under `vellum/`):
+
+- **Next 16** (App Router, Turbopack) + **React 19** + **TypeScript**; npm.
+- Commands run **from `vellum/`**: `npm run dev` (localhost:3000), `npm run build`,
+  `npm start`.
+- **No Tailwind** — plain CSS with custom properties in `vellum/app/globals.css`.
+  Themes are `[data-theme]` blocks; registry in `vellum/lib/themes.ts` (12 themes).
+  Two layout variants (`components/layout-mode.tsx`, toggled at runtime).
+- **Mock API only** — `vellum/lib/api.ts` + `vellum/lib/mock-data.ts`; no Claude or
+  GitHub calls. Designed to be swapped for real endpoints without UI changes.

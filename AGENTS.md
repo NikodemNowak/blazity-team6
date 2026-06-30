@@ -14,6 +14,10 @@ code has landed yet. Concept/build plan: `docs/CONCEPT.md`; stable context in
 
 - `.ai/` — Atlas AI workspace. `.ai/config.json` is the source of truth for
   artifact locations (memory, vocabulary, plans, research, decisions, results).
+- `repolens/` — the RepoLens Next.js app (UI + API routes, `src/lib`, tests).
+- `vellum/` — a standalone frontend exploration (mock data, no backend); see
+  "Vellum frontend" below and `vellum/README.md`.
+- `docs/` — concept and build-plan notes (`docs/CONCEPT.md`).
 - `AGENTS.md` / `CLAUDE.md` — agent instructions; `CLAUDE.md` imports this file.
 - `.agents/`, `.claude/`, `.cursor/` — generated agent surfaces.
 
@@ -33,6 +37,18 @@ code has landed yet. Concept/build plan: `docs/CONCEPT.md`; stable context in
   `npx --yes @blazity-atlas/core@latest doctor` checks workspace health.
 - Do not edit the `<!-- BEGIN/END ATLAS -->` managed block below by hand.
 - Keep durable docs depersonalized (see Atlas Documentation Rules below).
+
+## Vellum frontend (`vellum/`)
+
+A separate UI exploration of the same "AI for content / documentation" theme,
+kept apart from the canonical RepoLens app. It is a self-contained **Next.js 16 +
+React 19 + TypeScript** app with **plain-CSS theming** (no Tailwind) and a **typed
+mock API** (`vellum/lib/api.ts`) — no real model calls. It offers Generate /
+Analyze / Review screens, **12 colour themes** (`[data-theme]` blocks) and **2
+layout variants** (top-nav / split workspace) toggled at runtime. Run it from the
+`vellum/` directory (`npm install && npm run dev`); it shares nothing with
+`repolens/` at the code level. Treat its mock layer as the contract a real
+backend (e.g. RepoLens routes) could later satisfy.
 
 <!-- BEGIN ATLAS: artifact-paths -->
 ## Atlas Artifact Paths
