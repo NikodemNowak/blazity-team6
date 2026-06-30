@@ -12,14 +12,12 @@ import {
   analyzeResult,
   buildGenerateResult,
   documents as mockDocuments,
-  driftResult,
   reviewResult,
 } from "./mock-data";
 import type {
   ActivityItem,
   AnalyzeResult,
   DocumentSummary,
-  DriftResult,
   GenerateRequest,
   GenerateResult,
   ReviewResult,
@@ -52,8 +50,5 @@ export async function reviewDoc(_source: string): Promise<ReviewResult> {
   return delay(reviewResult, 1100);
 }
 
-export async function checkDrift(_repoUrl: string): Promise<DriftResult> {
-  // Real impl: ingest the repo, then POST /api/drift { repoId } to the RepoLens
-  // backend and map each DriftFinding's contradictingCode into a citation excerpt.
-  return delay(driftResult, 1200);
-}
+// Drift is a real feature, not mocked: see app/api/drift/route.ts and
+// components/repo/RepoDrift.tsx (ingest a repo, then POST /api/drift).
