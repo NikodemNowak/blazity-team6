@@ -12,6 +12,7 @@ export const NAV = [
   { href: "/generate", label: "Generate", icon: Icon.Generate },
   { href: "/analyze", label: "Analyze", icon: Icon.Analyze },
   { href: "/review", label: "Review", icon: Icon.Review },
+  { href: "/drift", label: "Drift", icon: Icon.Drift },
   { href: "/documents", label: "Documents", icon: Icon.Docs },
 ];
 
@@ -83,6 +84,7 @@ const ACTIVITY_TONE = {
   generate: "info",
   analyze: "low",
   review: "med",
+  drift: "high",
 } as const;
 
 export function statDefs(stats: OverviewStats) {

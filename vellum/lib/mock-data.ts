@@ -5,6 +5,7 @@ import type {
   ActivityItem,
   AnalyzeResult,
   DocumentSummary,
+  DriftResult,
   GenerateResult,
   ReviewResult,
 } from "./types";
@@ -241,3 +242,57 @@ header.
 
 See the rate limits guide for throughput details.
 `;
+
+export const sampleRepoUrl = "https://github.com/demo/widget";
+
+export const driftResult: DriftResult = {
+  repo: "demo/widget",
+  checkedFiles: 24,
+  counts: { high: 2, medium: 1, low: 0, info: 0 },
+  findings: [
+    {
+      id: "drift-1",
+      severity: "high",
+      docFile: "README.md",
+      claim: "Start the server with `npm start`.",
+      explanation:
+        "The README tells users to run `npm start`, but package.json defines no `start` script — only `dev` and `build` exist, so the documented command fails.",
+      contradictingCode: {
+        path: "package.json",
+        startLine: 4,
+        endLine: 7,
+        excerpt: '"scripts": {\n  "dev": "next dev",\n  "build": "next build"\n}',
+      },
+    },
+    {
+      id: "drift-2",
+      severity: "high",
+      docFile: "README.md",
+      claim: "Widget persists all data in a PostgreSQL database.",
+      explanation:
+        "The store is an in-memory Map with no external database; the source comment states outright that no database is used.",
+      contradictingCode: {
+        path: "src/store.ts",
+        startLine: 1,
+        endLine: 2,
+        excerpt:
+          "// In-memory store. No external database is used.\nconst data = new Map<string, unknown>();",
+      },
+    },
+    {
+      id: "drift-3",
+      severity: "medium",
+      docFile: "README.md",
+      claim: "Configuration is loaded from `config.yaml` at the project root.",
+      explanation:
+        "Configuration is read from environment variables (PORT, API_KEY), not a config.yaml file.",
+      contradictingCode: {
+        path: "src/config.ts",
+        startLine: 1,
+        endLine: 4,
+        excerpt:
+          "// Configuration comes from environment variables, not a file.\nexport const config = {\n  port: Number(process.env.PORT ?? 3000),\n};",
+      },
+    },
+  ],
+};

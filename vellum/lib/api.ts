@@ -12,12 +12,14 @@ import {
   analyzeResult,
   buildGenerateResult,
   documents as mockDocuments,
+  driftResult,
   reviewResult,
 } from "./mock-data";
 import type {
   ActivityItem,
   AnalyzeResult,
   DocumentSummary,
+  DriftResult,
   GenerateRequest,
   GenerateResult,
   ReviewResult,
@@ -48,4 +50,10 @@ export async function analyzeDoc(_source: string): Promise<AnalyzeResult> {
 export async function reviewDoc(_source: string): Promise<ReviewResult> {
   // Real impl: POST /api/review with the document text.
   return delay(reviewResult, 1100);
+}
+
+export async function checkDrift(_repoUrl: string): Promise<DriftResult> {
+  // Real impl: ingest the repo, then POST /api/drift { repoId } to the RepoLens
+  // backend and map each DriftFinding's contradictingCode into a citation excerpt.
+  return delay(driftResult, 1200);
 }

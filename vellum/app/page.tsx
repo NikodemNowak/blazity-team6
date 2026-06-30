@@ -8,6 +8,7 @@ const ACTIVITY_TONE = {
   generate: "info",
   analyze: "low",
   review: "med",
+  drift: "high",
 } as const;
 
 export default async function DashboardPage() {

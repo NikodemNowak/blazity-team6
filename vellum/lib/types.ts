@@ -94,8 +94,40 @@ export interface ReviewResult {
 
 export interface ActivityItem {
   id: string;
-  kind: "generate" | "analyze" | "review";
+  kind: "generate" | "analyze" | "review" | "drift";
   title: string;
   at: string;
   meta: string;
+}
+
+// --- Drift -------------------------------------------------------------------
+// Docs-vs-code drift: where a repo's docs claim something the code contradicts.
+// Maps to the RepoLens `POST /api/drift` contract; the citation excerpt is the
+// "checked, not trusted" evidence rendered next to each claim.
+
+export interface DriftCitation {
+  path: string;
+  startLine: number;
+  endLine: number;
+  /** The contradicting source lines, ready to render. */
+  excerpt: string;
+}
+
+export interface DriftFinding {
+  id: string;
+  severity: Severity;
+  /** Where the stale claim lives (e.g. README.md). */
+  docFile: string;
+  /** The doc text that is wrong/outdated. */
+  claim: string;
+  explanation: string;
+  contradictingCode: DriftCitation;
+}
+
+export interface DriftResult {
+  /** owner/repo that was checked. */
+  repo: string;
+  findings: DriftFinding[];
+  counts: Record<Severity, number>;
+  checkedFiles: number;
 }

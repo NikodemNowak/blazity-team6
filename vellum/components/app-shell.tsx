@@ -12,6 +12,7 @@ const ROUTE_LABEL: Array<[string, string]> = [
   ["/generate", "Generate"],
   ["/analyze", "Analyze"],
   ["/review", "Review"],
+  ["/drift", "Drift"],
   ["/documents", "Documents"],
   ["/", "Dashboard"],
 ];
@@ -38,6 +39,11 @@ const CONTEXT: Record<string, string[]> = {
     "Issues are grouped by severity and category.",
     "Each issue includes a suggested fix.",
     "Filter the list by severity.",
+  ],
+  Drift: [
+    "Paste a GitHub repo URL to check docs against code.",
+    "Each finding cites the contradicting code — checked, not trusted.",
+    "Filter findings by severity.",
   ],
   Documents: [
     "Health reflects the last analysis run.",

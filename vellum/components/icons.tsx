@@ -74,4 +74,14 @@ export const Icon = {
       <path d="M14 2v4h4" />
     </Base>
   ),
+  // Docs-vs-code drift: a git-diff fork — two branches that disagree.
+  Drift: (p: SVGProps<SVGSVGElement>) => (
+    <Base {...p}>
+      <circle cx="6" cy="5" r="2" />
+      <circle cx="6" cy="19" r="2" />
+      <circle cx="18" cy="12" r="2" />
+      <path d="M6 7v10" />
+      <path d="M6 9a6 6 0 0 0 6 6h4" />
+    </Base>
+  ),
 };
