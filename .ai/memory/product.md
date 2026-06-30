@@ -1,15 +1,20 @@
 # Product
 
-Early-stage hackathon project. The repository is currently a scaffold with no
-application code yet.
+A Blazity hackathon project on the theme **"AI for Content"**: build a web app that
+uses AI to solve a real content-management pain. "Content" is broad — posts, copy,
+docs, social, newsletters, subtitles, asset libraries.
 
 ## Direction
 
-The intended product is an AI / agent application. Specific scope — the concrete
-use case, target users, and feature set — is not yet decided.
+The concrete use case is **not yet decided**. Candidate problem areas raised in the
+brief: reformatting/repurposing content, brand & tone consistency checking, asset
+hunting/library search, keeping tone consistent across channels.
 
-## Unknowns (fill once code lands)
+Judging favors focus over scope: a small tool that does one thing well, with clear
+reasoning about why that problem and how the AI's output is checked, beats a sprawl.
 
-- Concrete product purpose and the problem it solves
-- Target users
-- Success criteria / what a hackathon demo must show
+## Unknowns (fill once the use case is chosen)
+
+- The specific content pain and target user.
+- What the demo must show to be judged well.
+- Success criteria for the one thing the tool does.

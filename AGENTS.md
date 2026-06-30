@@ -2,10 +2,11 @@
 
 ## What this repo is
 
-`blazity-hackaton` — an early-stage hackathon project. Today it is a scaffold:
-only README, LICENSE, and the Atlas AI workspace under `.ai/` exist; there is no
-application code yet. The intended product is an AI / agent application; concrete
-scope and tech stack are not yet decided. See `.ai/memory/` for stable context.
+`blazity-hackaton` — a Blazity hackathon project on the theme **"AI for Content"**:
+a web app that uses AI to solve a real content-management pain (e.g. reformatting,
+brand/tone consistency, asset hunting). The stack is **Next.js + TypeScript**,
+powered by the **Claude (Anthropic)** API. No application code has landed yet, and
+the concrete product use case is still open. See `.ai/memory/` for stable context.
 
 ## Structure
 
@@ -16,9 +17,12 @@ scope and tech stack are not yet decided. See `.ai/memory/` for stable context.
 
 ## Working rules
 
-- No stack is chosen yet — confirm language, framework, and run/test/build
-  commands before assuming them. Update `.ai/memory/stack.md` once decided.
-- There are no project-specific safe commands yet beyond Atlas tooling:
+- Stack is decided (Next.js + TypeScript, Claude API) but **not yet scaffolded** —
+  no `package.json` or lockfile exists. Confirm exact run/test/build commands once
+  `create-next-app` (or equivalent) has run; update `.ai/memory/stack.md` then.
+- When building with Claude, default to the latest models (Opus 4.8, Sonnet 4.6,
+  Haiku 4.5) via the `@anthropic-ai/sdk`. Keep API keys in env, never commit them.
+- The only project-specific safe command today is Atlas tooling:
   `npx --yes @blazity-atlas/core@latest doctor` checks workspace health.
 - Do not edit the `<!-- BEGIN/END ATLAS -->` managed block below by hand.
 - Keep durable docs depersonalized (see Atlas Documentation Rules below).
