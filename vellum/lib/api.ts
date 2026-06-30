@@ -49,3 +49,6 @@ export async function reviewDoc(_source: string): Promise<ReviewResult> {
   // Real impl: POST /api/review with the document text.
   return delay(reviewResult, 1100);
 }
+
+// Drift is a real feature, not mocked: see app/api/drift/route.ts and
+// components/repo/RepoDrift.tsx (ingest a repo, then POST /api/drift).

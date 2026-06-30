@@ -94,8 +94,12 @@ export interface ReviewResult {
 
 export interface ActivityItem {
   id: string;
-  kind: "generate" | "analyze" | "review";
+  kind: "generate" | "analyze" | "review" | "drift";
   title: string;
   at: string;
   meta: string;
 }
+
+// Repo docs-vs-code drift is a real, backend-backed feature — its types live in
+// lib/repo/types.ts (DriftFinding, DriftResponse) alongside the rest of the repo
+// pipeline, not here in the mock-API types.
