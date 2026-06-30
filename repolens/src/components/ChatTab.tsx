@@ -3,7 +3,7 @@ import { useState } from "react";
 import CitationView from "@/components/CitationView";
 import type { ChatResponse, Citation } from "@/lib/types";
 
-type Msg = { role: "user" | "assistant"; text: string; citations?: Citation[] };
+type Msg = { role: "user" | "assistant"; text: string; citations?: Citation[]; error?: boolean };
 
 export default function ChatTab({ repoId }: { repoId: string }) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
@@ -11,9 +11,9 @@ export default function ChatTab({ repoId }: { repoId: string }) {
   const [loading, setLoading] = useState(false);
 
   async function send() {
-    if (!q.trim()) return;
+    if (!q.trim() || loading) return;
     const question = q;
-    const history = msgs.map((m) => ({ role: m.role, text: m.text }));
+    const history = msgs.filter((m) => !m.error).map((m) => ({ role: m.role, text: m.text }));
     setMsgs((m) => [...m, { role: "user", text: question }]);
     setQ("");
     setLoading(true);
@@ -23,8 +23,23 @@ export default function ChatTab({ repoId }: { repoId: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ repoId, question, history }),
       });
-      const json = (await res.json()) as ChatResponse;
-      setMsgs((m) => [...m, { role: "assistant", text: json.answer, citations: json.citations }]);
+      const json = (await res.json()) as ChatResponse & { error?: string };
+      if (!res.ok || json.error) {
+        setMsgs((m) => [
+          ...m,
+          { role: "assistant", text: json.error ?? `Request failed (${res.status})`, error: true },
+        ]);
+      } else {
+        setMsgs((m) => [
+          ...m,
+          { role: "assistant", text: json.answer || "(no answer)", citations: json.citations },
+        ]);
+      }
+    } catch (e: unknown) {
+      setMsgs((m) => [
+        ...m,
+        { role: "assistant", text: e instanceof Error ? e.message : "Network error", error: true },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -34,7 +49,12 @@ export default function ChatTab({ repoId }: { repoId: string }) {
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-3">
         {msgs.map((m, i) => (
-          <div key={i} className={m.role === "user" ? "text-neutral-100" : "text-neutral-300"}>
+          <div
+            key={i}
+            className={
+              m.error ? "text-red-400" : m.role === "user" ? "text-neutral-100" : "text-neutral-300"
+            }
+          >
             <div className="text-xs uppercase text-neutral-500">{m.role}</div>
             <div className="whitespace-pre-wrap text-sm">{m.text}</div>
             {m.citations?.map((c, j) => (

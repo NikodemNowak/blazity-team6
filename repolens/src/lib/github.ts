@@ -1,11 +1,17 @@
 import { shouldIncludePath } from "./filter";
 import type { RepoFile } from "./types";
 
-const H = {
-  Authorization: `Bearer ${process.env.GITHUB_TOKEN ?? ""}`,
+// Only send the Authorization header when a token is set. An empty
+// `Bearer ` is rejected with 401 even for public repos; omitting it lets
+// public repos work unauthenticated (lower rate limit). Private repos need
+// the token.
+const H: Record<string, string> = {
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2022-11-28",
 };
+if (process.env.GITHUB_TOKEN) {
+  H.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+}
 
 // GitHub owners and repo names: alphanumerics plus -, _, . — no slashes,
 // and never "." / ".." (which would let a crafted URL escape the
