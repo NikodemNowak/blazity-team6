@@ -22,6 +22,9 @@ export default function RepoChat() {
   const [loadingRepo, setLoadingRepo] = useState(false);
   const [repoErr, setRepoErr] = useState<string | null>(null);
 
+  const [gh, setGh] = useState<{ connected: boolean; appConfigured: boolean } | null>(null);
+  const [repos, setRepos] = useState<{ full_name: string; private: boolean }[] | null>(null);
+
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
@@ -31,15 +34,32 @@ export default function RepoChat() {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
 
-  async function loadRepo() {
-    if (!url.trim() || loadingRepo) return;
+  useEffect(() => {
+    fetch("/api/github/status")
+      .then((r) => r.json())
+      .then((s) => {
+        setGh(s);
+        if (s.connected) {
+          fetch("/api/github/repos")
+            .then((r) => r.json())
+            .then((d) => Array.isArray(d.repos) && setRepos(d.repos))
+            .catch(() => {});
+        }
+      })
+      .catch(() => setGh({ connected: false, appConfigured: false }));
+  }, []);
+
+  async function loadRepo(explicitUrl?: string) {
+    const target = (explicitUrl ?? url).trim();
+    if (!target || loadingRepo) return;
+    if (explicitUrl) setUrl(explicitUrl);
     setLoadingRepo(true);
     setRepoErr(null);
     try {
       const res = await fetch("/api/ingest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ repoUrl: url }),
+        body: JSON.stringify({ repoUrl: target }),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Failed to load repo");
@@ -50,6 +70,12 @@ export default function RepoChat() {
     } finally {
       setLoadingRepo(false);
     }
+  }
+
+  async function disconnectGitHub() {
+    await fetch("/api/github/disconnect", { method: "POST" }).catch(() => {});
+    setGh((g) => (g ? { ...g, connected: false } : g));
+    setRepos(null);
   }
 
   function patchLast(patch: Partial<Msg>) {
@@ -137,6 +163,43 @@ export default function RepoChat() {
     <div className="repo-chat">
       {/* Repo loader */}
       <div className="card card-pad">
+        {/* GitHub connect / picker (only when a GitHub App is configured) */}
+        {gh?.appConfigured && (
+          <div className="gh-connect-row">
+            {gh.connected ? (
+              <>
+                <span className="gh-badge">
+                  <Icon.GitHub width={14} height={14} /> GitHub connected
+                </span>
+                {repos && repos.length > 0 && (
+                  <select
+                    className="select gh-repo-select"
+                    defaultValue=""
+                    onChange={(e) => e.target.value && loadRepo(`https://github.com/${e.target.value}`)}
+                  >
+                    <option value="" disabled>
+                      Pick a repository…
+                    </option>
+                    {repos.map((r) => (
+                      <option key={r.full_name} value={r.full_name}>
+                        {r.full_name}
+                        {r.private ? " · private" : ""}
+                      </option>
+                    ))}
+                  </select>
+                )}
+                <button className="btn btn-ghost btn-sm" onClick={disconnectGitHub}>
+                  Disconnect
+                </button>
+              </>
+            ) : (
+              <a className="btn btn-primary gh-connect-btn" href="/api/github/connect">
+                <Icon.GitHub width={15} height={15} /> Connect GitHub
+              </a>
+            )}
+          </div>
+        )}
+
         <div className="repo-load-row">
           <input
             className="input"
@@ -146,10 +209,19 @@ export default function RepoChat() {
             onKeyDown={(e) => e.key === "Enter" && loadRepo()}
             disabled={loadingRepo}
           />
-          <button className="btn btn-primary" onClick={loadRepo} disabled={loadingRepo || !url.trim()}>
+          <button
+            className="btn btn-primary"
+            onClick={() => loadRepo()}
+            disabled={loadingRepo || !url.trim()}
+          >
             {loadingRepo ? "Loading…" : repo ? "Reload" : "Load repo"}
           </button>
         </div>
+        {gh && !gh.appConfigured && (
+          <div className="gh-hint faint">
+            Public repos work as-is. Configure a GitHub App to connect private repos in one click.
+          </div>
+        )}
         {repoErr && <div className="repo-load-err">{repoErr}</div>}
         {repo && (
           <div className="repo-load-meta">

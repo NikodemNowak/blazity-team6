@@ -3,6 +3,8 @@ import { parseRepoUrl, fetchRepoFiles } from "@/lib/repo/github";
 import { applyBudget } from "@/lib/repo/filter";
 import { saveBundle } from "@/lib/repo/bundleStore";
 import { rateLimit, clientKey } from "@/lib/repo/rateLimit";
+import { INSTALL_COOKIE, verifyInstallation } from "@/lib/repo/ghCookie";
+import { getInstallationToken } from "@/lib/repo/githubApp";
 import type { IngestResponse, RepoBundle } from "@/lib/repo/types";
 
 export const runtime = "nodejs"; // needs Buffer + module-level Map
@@ -17,7 +19,21 @@ export async function POST(req: NextRequest) {
     if (!repoUrl) return NextResponse.json({ error: "repoUrl is required" }, { status: 400 });
 
     const { owner, repo } = parseRepoUrl(repoUrl);
-    const { branch, files, fileTree, treeTruncated } = await fetchRepoFiles(owner, repo);
+
+    // Token precedence: GitHub App installation token (if the user connected) >
+    // GITHUB_TOKEN env PAT > unauthenticated. Installation tokens are minted
+    // server-side from the App private key and never stored.
+    let token: string | undefined;
+    const installationId = verifyInstallation(req.cookies.get(INSTALL_COOKIE)?.value);
+    if (installationId) {
+      try {
+        token = await getInstallationToken(installationId);
+      } catch {
+        /* fall back to env PAT / unauthenticated */
+      }
+    }
+
+    const { branch, files, fileTree, treeTruncated } = await fetchRepoFiles(owner, repo, token);
     const { kept, truncated } = applyBudget(files);
 
     const bundle: RepoBundle = {

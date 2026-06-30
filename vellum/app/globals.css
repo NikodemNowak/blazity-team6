@@ -1651,3 +1651,34 @@ h4 {
     transform: scale(1.1);
   }
 }
+
+/* GitHub connect / repo picker */
+.gh-connect-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.gh-connect-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.gh-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--success);
+}
+.gh-repo-select {
+  max-width: 320px;
+}
+.gh-hint {
+  margin-top: 8px;
+  font-size: 12px;
+}

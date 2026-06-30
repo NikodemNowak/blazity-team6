@@ -1,16 +1,19 @@
 import { shouldIncludePath } from "./filter";
 import type { RepoFile } from "./types";
 
-// Only send the Authorization header when a token is set. An empty
-// `Bearer ` is rejected with 401 even for public repos; omitting it lets
-// public repos work unauthenticated (lower rate limit). Private repos need
-// the token.
-const H: Record<string, string> = {
-  Accept: "application/vnd.github+json",
-  "X-GitHub-Api-Version": "2022-11-28",
-};
-if (process.env.GITHUB_TOKEN) {
-  H.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+// Build request headers for a given token. Token precedence is decided by the
+// caller (GitHub App installation token > GITHUB_TOKEN env PAT > none). An empty
+// `Bearer ` is rejected with 401 even for public repos, so we only attach the
+// header when a token actually exists; without one, public repos still work
+// unauthenticated (lower rate limit), private repos need a token.
+function headers(token?: string): Record<string, string> {
+  const h: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+  const t = token || process.env.GITHUB_TOKEN;
+  if (t) h.Authorization = `Bearer ${t}`;
+  return h;
 }
 
 // GitHub owners and repo names: alphanumerics plus -, _, . — no slashes,
@@ -37,8 +40,10 @@ export function parseRepoUrl(url: string): { owner: string; repo: string } {
   return { owner, repo };
 }
 
-async function getDefaultBranch(owner: string, repo: string): Promise<string> {
-  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers: H });
+async function getDefaultBranch(owner: string, repo: string, token?: string): Promise<string> {
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+    headers: headers(token),
+  });
   if (!res.ok) throw new Error(`GitHub repo lookup failed (${res.status})`);
   const json = await res.json();
   return json.default_branch as string;
@@ -54,8 +59,10 @@ interface TreeNode {
 export async function fetchRepoFiles(
   owner: string,
   repo: string,
+  token?: string,
 ): Promise<{ branch: string; files: RepoFile[]; fileTree: string[]; treeTruncated: boolean }> {
-  const branch = await getDefaultBranch(owner, repo);
+  const H = headers(token);
+  const branch = await getDefaultBranch(owner, repo, token);
   const base = `https://api.github.com/repos/${owner}/${repo}`;
   const treeRes = await fetch(`${base}/git/trees/${branch}?recursive=1`, { headers: H });
   if (!treeRes.ok) throw new Error(`GitHub tree fetch failed (${treeRes.status})`);
