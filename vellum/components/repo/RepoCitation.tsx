@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import CodeBlock from "@/components/repo/CodeBlock";
 import type { Citation } from "@/lib/repo/types";
 
 // "Checked, not trusted": renders the actual source lines a citation points to,
@@ -37,14 +38,15 @@ export default function RepoCitation({ repoId, citation }: { repoId: string; cit
       </div>
       {err && <div className="repo-cite-err">{err}</div>}
       {lines && (
-        <pre className="repo-cite-code">
-          {lines.map((l) => (
-            <div key={l.n} className="repo-cite-line">
-              <span className="repo-cite-num">{l.n}</span>
-              <span className="repo-cite-text">{l.text || " "}</span>
-            </div>
-          ))}
-        </pre>
+        <div className="repo-cite-code">
+          <CodeBlock
+            code={lines.map((l) => l.text).join("\n")}
+            language={citation.path}
+            fromPath
+            showLineNumbers
+            startingLineNumber={lines[0]?.n ?? citation.startLine}
+          />
+        </div>
       )}
     </div>
   );
