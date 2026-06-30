@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomBytes } from "crypto";
 import { STATE_COOKIE } from "@/lib/repo/ghCookie";
+import { isHttps } from "@/lib/repo/origin";
 
 export const runtime = "nodejs";
 
@@ -17,7 +18,7 @@ export async function GET(req: NextRequest) {
   res.cookies.set(STATE_COOKIE, state, {
     httpOnly: true,
     sameSite: "lax",
-    secure: req.nextUrl.protocol === "https:",
+    secure: isHttps(req),
     path: "/",
     maxAge: 600,
   });
