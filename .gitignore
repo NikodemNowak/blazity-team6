@@ -79,3 +79,7 @@ temp/
 # Playwright + local test artifacts
 .playwright-mcp/
 *-working.png
+
+# Secrets — never commit private keys
+*.pem
+*.private-key.pem
