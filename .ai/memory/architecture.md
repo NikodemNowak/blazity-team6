@@ -1,6 +1,6 @@
 # Architecture
 
-Vellum is the active Next.js app (UI + server-side API routes). The defining
+RepoLens is the active Next.js app (UI + server-side API routes). The defining
 constraint: **all Claude, GitHub, and local test-repo access is server-side** so
 neither the Anthropic key nor the GitHub token reaches the client.
 
@@ -53,7 +53,7 @@ Each feature is its own API route + its own UI tab, all consuming `getBundle(rep
 
 ## UI shape
 
-Vellum uses routed screens: Dashboard, Chat, Generate, Analyze, Review, Documents,
+RepoLens uses routed screens: Dashboard, Chat, Generate, Analyze, Review, Documents,
 and Settings. Chat and Generate have repo loaders. Settings owns theme/layout
 controls. The app has top-nav and split layout modes, with mobile wrapping and
 right-rail collapse.

@@ -1,7 +1,7 @@
 # Product
 
-**Vellum / RepoLens** — a Blazity "AI for Content" hackathon web app. The active
-product surface is `vellum/`; the "content" is a codebase and its docs. Full
+**RepoLens** — a Blazity "AI for Content" hackathon web app. The active
+product surface is `repolens/`; the "content" is a codebase and its docs. Full
 concept and build plan: `docs/CONCEPT.md`.
 
 ## The pain
@@ -11,15 +11,15 @@ sync with the code they describe — so they mislead the reader.
 
 ## What it does
 
-Paste a **GitHub repo URL** or development-only `local:<fixture>`; Vellum ingests
+Paste a **GitHub repo URL** or development-only `local:<fixture>`; RepoLens ingests
 the repo (file tree + contents) and offers repo-backed features over the same
 in-memory bundle:
 
-- **Chat with the repo** — implemented in Vellum; ask questions, get Markdown
+- **Chat with the repo** — implemented in RepoLens; ask questions, get Markdown
   answers with citations and rendered snippets.
-- **Generate docs** — implemented in Vellum; onboarding/architecture overview
+- **Generate docs** — implemented in RepoLens; onboarding/architecture overview
   written from the actual code using language-specific documentation profiles.
-- **Drift check** — implemented in Vellum; compares README/docs against the code,
+- **Drift check** — implemented in RepoLens; compares README/docs against the code,
   flags stale claims and cites the contradicting code.
 
 ## Why AI earns its place
@@ -42,5 +42,5 @@ history, writing generated docs back to GitHub, syntax-perfect diffing.
 
 ## Implementation note
 
-`vellum/` is the active demo target. `repolens/` is an earlier scaffold/test app and
-should not receive frontend product work unless explicitly requested.
+`repolens/` is the single active app and demo target. All frontend product work
+targets `repolens/`.

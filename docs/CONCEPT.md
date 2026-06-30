@@ -1,13 +1,11 @@
 # RepoLens — concept & build plan
 
 > Hackathon: **AI for Content** · Next.js + TypeScript · Claude (Anthropic) API
-> Team of 3 · ~3h build budget · status: **implemented in Vellum, partial**
+> Team of 3 · ~3h build budget · status: **implemented in RepoLens, partial**
 
 ## Current implementation note
 
-The original plan used the name **RepoLens** and assumed a single app under
-`repolens/`. The active demo surface is now **Vellum** under `vellum/`.
-`repolens/` remains as an earlier scaffold/test implementation. The Vellum app
+The product is **RepoLens**, a single app under `repolens/`. The RepoLens app
 currently ships repo ingest, repo chat, citation snippets, settings/theme/layout
 controls, repo-based documentation generation, and drift checking.
 
@@ -25,8 +23,8 @@ and gives three things in one UI:
 | Feature | What it does | Owner |
 |---|---|---|
 | **A · Chat with the repo** | Ask "how does auth work?" → answer with citations; the UI renders the real code snippet as evidence. | dev 1 |
-| **B · Generate docs** | Implemented in Vellum: onboarding / architecture overview generated from the actual code, with language-specific documentation profiles. | dev 2 / Bartek |
-| **C · Drift check** | Implemented in Vellum: compares README/docs against the code, flags stale claims, citing the contradicting code. | dev 3 |
+| **B · Generate docs** | Implemented in RepoLens: onboarding / architecture overview generated from the actual code, with language-specific documentation profiles. | dev 2 / Bartek |
+| **C · Drift check** | Implemented in RepoLens: compares README/docs against the code, flags stale claims, citing the contradicting code. | dev 3 |
 
 ### Why the AI earns its place
 Judging "what does this project do" and "do the docs match the code" can't be
@@ -91,9 +89,9 @@ Single page, no routing needed beyond tabs. State: `repoId` in React state.
 
 Visual direction is open — clean developer-tool aesthetic. (UI styling owner decides.)
 
-### Bartek-owned Vellum scope
+### Bartek-owned RepoLens scope
 
-Bartek's practical ownership is the Vellum product surface: UI shell, theme/layout
+Bartek's practical ownership is the RepoLens product surface: UI shell, theme/layout
 settings, mobile behavior, citation/snippet presentation, and the Generate Docs
 module. Documentation generation should adapt to repository languages:
 
@@ -102,7 +100,7 @@ module. Documentation generation should adapt to repository languages:
 - Go → `godoc` / pkg.go.dev package conventions.
 - Rust → `rustdoc` crate/module conventions.
 - Java/Kotlin/C#/PHP/Ruby/Swift → the ecosystem-native documentation tools
-  represented in `vellum/lib/repo/docTooling.ts`.
+  represented in `repolens/lib/repo/docTooling.ts`.
 
 The implementation does not execute arbitrary documentation tools against cloned
 code; it detects languages and feeds those conventions to Claude while keeping all

@@ -32,14 +32,14 @@ People who work with words, images, or video drown in busywork: reformatting, of
    /atlas:atlas-review
    ```
    Or tell any agent: _"Read `.ai/skills/atlas-setup/SKILL.md` and adapt this workspace to our project."_
-5. **Current app:** work in `vellum/`. It is the active Vellum/RepoLens demo app:
+5. **Current app:** work in `repolens/`. It is the active RepoLens demo app:
    repo ingest, repo chat, docs generation, settings/themes/layouts, and mock
    Analyze/Review/Documents screens. `repolens/` is an earlier scaffold/test app.
 
-Run Vellum:
+Run RepoLens:
 
 ```bash
-cd vellum
+cd repolens
 npm install
 npm run dev
 ```

@@ -1,11 +1,11 @@
 # Stack
 
-The active application is scaffolded in `vellum/`.
+The active application is scaffolded in `repolens/`.
 
 ## Decided
 
 - **Language:** TypeScript.
-- **Framework:** Next.js 16 (App Router) + React 19 in `vellum/`.
+- **Framework:** Next.js 16 (App Router) + React 19 in `repolens/`.
 - **AI provider:** Claude (Anthropic) via `@anthropic-ai/sdk`, server-side only.
   Model choice by task: **Sonnet 4.6** for interactive chat, **Opus 4.8** for the
   heavier drift/docs reasoning (its 1M context fits whole small/medium repos), and a
@@ -23,7 +23,7 @@ The active application is scaffolded in `vellum/`.
 
 ## Commands
 
-Run from `vellum/`:
+Run from `repolens/`:
 
 - `npm install`
 - `npm run dev`
@@ -36,9 +36,9 @@ do not treat it as a working verifier until the script is replaced.
 ## Unknowns
 
 - Hosting/deploy target is not fully confirmed in code.
-- No dedicated test runner is configured for Vellum yet.
+- No dedicated test runner is configured for RepoLens yet.
 
-## RepoLens scaffold (`repolens/`)
+## RepoLens app (`repolens/`)
 
-`repolens/` remains as an earlier scaffold/test app with its own package and tests.
-It is not the current product frontend target.
+`repolens/` is the single active app and frontend product target, with its own
+package and tests.

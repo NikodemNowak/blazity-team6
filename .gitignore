@@ -83,5 +83,5 @@ temp/
 # Secrets — never commit private keys
 *.private-key.pem
 
-# Local demo repositories used to verify Vellum ingest/documentation flows.
+# Local demo repositories used to verify RepoLens ingest/documentation flows.
 test_repos/

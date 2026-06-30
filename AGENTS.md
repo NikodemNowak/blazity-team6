@@ -2,8 +2,8 @@
 
 ## What this repo is
 
-`blazity-hackaton` — **Vellum / RepoLens**, a Blazity "AI for Content" hackathon
-web app. The active product is `vellum/`: paste a GitHub repo URL or a local
+`blazity-hackaton` — **RepoLens**, a Blazity "AI for Content" hackathon
+web app. The active product is `repolens/`: paste a GitHub repo URL or a local
 `test_repos` fixture, ingest the repo, chat with it, and generate documentation
 from code. The content is a codebase and its docs. Stack: **Next.js + TypeScript**
 powered by **Claude (Anthropic)** API routes. Concept/build plan:
@@ -13,11 +13,10 @@ powered by **Claude (Anthropic)** API routes. Concept/build plan:
 
 - `.ai/` — Atlas AI workspace. `.ai/config.json` is the source of truth for
   artifact locations (memory, vocabulary, plans, research, decisions, results).
-- `vellum/` — the active app and demo target. Next.js 16 + React 19 + TypeScript,
-  plain CSS themes, repo chat, repo ingest, citation snippets, settings, and docs
-  generation via `/api/generate-docs`, plus drift checking via `/api/drift`.
-- `repolens/` — earlier scaffold/test implementation. Keep it stable unless the
-  user explicitly asks for RepoLens changes; frontend work should target `vellum/`.
+- `repolens/` — the single active app and demo target. Next.js 16 + React 19 +
+  TypeScript, plain CSS themes, repo chat, repo ingest, citation snippets, settings,
+  and docs generation via `/api/generate-docs`, plus drift checking via `/api/drift`.
+  All frontend work targets `repolens/`.
 - `test_repos/` — local cloned demo repositories for verification. Ignored by git.
 - `docs/` — concept and build-plan notes (`docs/CONCEPT.md`).
 - `AGENTS.md` / `CLAUDE.md` — agent instructions; `CLAUDE.md` imports this file.
@@ -25,7 +24,7 @@ powered by **Claude (Anthropic)** API routes. Concept/build plan:
 
 ## Working rules
 
-- Run Vellum from `vellum/`: `npm install`, `npm run dev`, `npm run build`,
+- Run RepoLens from `repolens/`: `npm install`, `npm run dev`, `npm run build`,
   `npm start`. `npm run lint` currently uses deprecated `next lint` and is not a
   reliable verification command until the script is updated.
 - When building with Claude, default to the latest models via the `@anthropic-ai/sdk`:
@@ -40,16 +39,16 @@ powered by **Claude (Anthropic)** API routes. Concept/build plan:
 - Do not edit the `<!-- BEGIN/END ATLAS -->` managed block below by hand.
 - Keep durable docs depersonalized (see Atlas Documentation Rules below).
 
-## Vellum frontend (`vellum/`)
+## RepoLens frontend (`repolens/`)
 
-Vellum is now the working product surface. It has live repo routes under
-`vellum/app/api`: `/api/ingest`, `/api/chat`, `/api/snippet`, and
+RepoLens is now the working product surface. It has live repo routes under
+`repolens/app/api`: `/api/ingest`, `/api/chat`, `/api/snippet`, and
 `/api/generate-docs`, `/api/drift`, and GitHub App connect/status routes.
-Analyze/Review/Documents still use the typed mock layer in `vellum/lib/api.ts`.
+Analyze/Review/Documents still use the typed mock layer in `repolens/lib/api.ts`.
 Styling uses 12 `[data-theme]` palettes in
-`vellum/app/globals.css` and 2 layout variants (top-nav / split workspace).
+`repolens/app/globals.css` and 2 layout variants (top-nav / split workspace).
 
-Bartek-owned work should be treated as: Vellum UI shell, Settings/theme/layout
+Bartek-owned work should be treated as: RepoLens UI shell, Settings/theme/layout
 controls, mobile responsiveness, citation/snippet presentation, and the Docs
 generation surface. Docs generation selects documentation conventions by detected
 language (`pydoc` for Python, TypeDoc/JSDoc for TS/JS, godoc, rustdoc, Javadoc,

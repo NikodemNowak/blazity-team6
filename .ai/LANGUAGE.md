@@ -6,8 +6,7 @@ Use this file to define canonical product and codebase terms for AI agents.
 
 | Term | Meaning | Avoid |
 | --- | --- | --- |
-| RepoLens | The product: a web app that ingests a GitHub repo and offers chat, doc generation, and drift check over it. | "the tool" |
-| Vellum | The active app and demo target under `vellum/`; repo chat and docs generation live here. | "frontend exploration" |
+| RepoLens | The product and the single active app/demo target under `repolens/`: a web app that ingests a GitHub repo and offers chat, doc generation, and drift check over it. | "the tool" |
 | Bundle | The in-memory ingested repo (`{ tree, files, totalTokens }`) keyed by `repoId`, read via `getBundle(repoId)`. Fed to Claude. | "the repo data", "cache" |
 | repoId | Server-side key identifying one ingested bundle in the in-memory `Map`. | "session id" |
 | Citation | A `file:line` reference (`{ path, startLine, endLine }`) attached to an answer or finding; rendered as a real code snippet by `<CitationView>`. | "source", "reference" |
